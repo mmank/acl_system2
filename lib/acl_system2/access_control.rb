@@ -16,13 +16,13 @@ module Caboose
       #                 :update => '(admin | moderator) & !blacklist',
       #                 :list => '(admin | moderator | user) & !blacklist'
       def access_control(actions={})
-        # Add class-wide permission callback to before_filter
+        # Add class-wide permission callback to before_action
         defaults = {}  
         if block_given?
           yield defaults 
           default_block_given = true  
-        end        
-        before_filter do |c|
+        end
+        before_action do |c|
           c.default_access_context = defaults if default_block_given
           @access = AccessSentry.new(c, actions)
           if @access.allowed?(c.action_name)
@@ -56,7 +56,13 @@ module Caboose
 
     def default_access_context
       @default_access_context ||= {}
-      @default_access_context[:user] = send(:current_user) if respond_to?(:current_user)
+      if respond_to?(:current_user)
+        @default_access_context[:user] = send(:current_user)
+      else
+
+        puts "DOES NOT RESPOND"
+        raise "DNR #{self.class}"
+      end
       @default_access_context 
     end
 

@@ -27,7 +27,7 @@ class ControllerProxy
   
     attr_reader :before_block
   
-    def before_filter(&block)
+    def before_action(&block)
       @before_block = block if block_given?
     end
   
@@ -135,7 +135,7 @@ class AccessControlTest  < Test::Unit::TestCase
     end
   end
   
-  def test_before_filter
+  def test_before_action
     context = { :user => User.new }
     controller = ControllerProxy.new 
     

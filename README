@@ -11,14 +11,14 @@ So lets take a look at the sugar you get from using this plugin. Keep in mind th
 flexible the permissions string logic parser is. 
 
 class PostController < ApplicationController
-  before_filter :login_required, :except => [:list, :index]
+  before_action :login_required, :except => [:list, :index]
   access_control [:new, :create, :update, :edit] => '(admin | user | moderator)',
                  :delete => 'admin & (!moderator & !blacklist)' 
 
 Of course you can define them all seperately if they differ at all.
 
 class PostController < ApplicationController
-  before_filter :login_required, :except => [:list, :index]
+  before_action :login_required, :except => [:list, :index]
   access_control :new => '(admin | user | moderator) & !blacklist',
                  :create => 'admin & !blacklist',
                  :edit => '(admin | moderator) & !blacklist',
@@ -28,7 +28,7 @@ class PostController < ApplicationController
 And you can also use :DEFAULT if you have a lot of actions that need the same permissions.
 
 class PostController < ApplicationController
-  before_filter :login_required, :except => [:list, :index]
+  before_action :login_required, :except => [:list, :index]
   access_control :DEFAULT => '!guest' 
                 [:new, :create, :update, :edit] => '(admin | user | moderator)',
                  :delete => 'admin & (!moderator & !blacklist)'
@@ -39,7 +39,7 @@ can redirect or render and error page or whatever else you might want to do if a
 or denied.
 
 class PostController < ApplicationController
-  before_filter :login_required, :except => [:list, :index]
+  before_action :login_required, :except => [:list, :index]
   access_control :DEFAULT => '!guest' 
                 [:new, :create, :update, :edit] => '(admin | user | moderator)',
                  :delete => 'admin & (!moderator & !blacklist)'
@@ -109,7 +109,7 @@ And so thats pretty much it for now. You add the roles to the Role.title attribu
  moderator and blacklist like above. These can be anything you want them to be, roles, groups
  or whatever. Then you can use as many nested parens and logic with & | ! as you want to 
 define your complex permissions for accessing your controller. Make sure that your access_control
- gets called after the login_required before_filter because we assume that you are already 
+ gets called after the login_required before_action because we assume that you are already 
 logged in if you made it this far and then we eval the permissions logic.
 
 You will want to define these access_control in each controller that needs specific permissions.

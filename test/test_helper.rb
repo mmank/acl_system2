@@ -1,3 +1,3 @@
-require File.dirname(__FILE__) + '/../lib/caboose/logic_parser'
-require File.dirname(__FILE__) + '/../lib/caboose/role_handler'
-require File.dirname(__FILE__) + '/../lib/caboose/access_control'
+require File.dirname(__FILE__) + '/../lib/acl_system2/logic_parser'
+require File.dirname(__FILE__) + '/../lib/acl_system2/role_handler'
+require File.dirname(__FILE__) + '/../lib/acl_system2/access_control'
